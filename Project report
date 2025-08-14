@@ -1,0 +1,174 @@
+---
+
+# 📄 Project Report: Python Word Counter
+
+## 📌 Project Title:
+
+*python-word-counter*
+
+## 🧠 Objective:
+
+The goal of this project is to develop a *Python 3 command-line tool* that reads a UTF-8 encoded plain-text file and outputs:
+
+* The *total number of words* in the file.
+* The *top 10 most frequent words*, along with their respective frequencies.
+
+The project must not use Python's built-in collections.Counter or any built-in sorting functions. Instead, custom counting and sorting logic is implemented.
+
+---
+
+## 🚀 Features:
+
+* Handles *alphanumeric and numeric words*, excluding punctuation.
+* *Hyphenated words* (e.g. "state-of-the-art") are counted as a *single word*.
+* *Case-insensitive* word counting.
+* Gracefully handles *non-existent* or *invalid input files*.
+* Efficient *top-10 frequency tracking* during word processing.
+* Includes a *test suite* (tests.py) for verifying correctness.
+* No third-party dependencies.
+
+---
+
+## 📂 File Structure:
+
+
+python-word-counter/
+├── word_counter.py     # Main executable
+├── tests.py            # Test suite
+├── README.md           # Usage and installation instructions
+└── sample_inputs/      # Sample input text files
+
+
+---
+
+## 🧪 Sample Output:
+
+bash
+Top 10 Words:
+the 78735
+of 39973
+and 38068
+to 28579
+in 21715
+a 20810
+he 12114
+that 12020
+was 11361
+his 10007
+Total Words: 1095695
+
+
+---
+
+## ⚙ Usage:
+
+### Run the Application:
+
+bash
+$ python3 word_counter.py input.txt
+
+
+### Run the Tests:
+
+bash
+$ python3 tests.py
+
+
+### Install Globally (Optional):
+
+bash
+$ sudo python3 setup.py install
+
+
+---
+
+## 📖 Solution Explanation:
+
+### 1. *Tokenization*:
+
+* Words are separated using spaces and cleaned of punctuation using a regex.
+* Words are converted to lowercase.
+* Hyphenated words are preserved as single tokens.
+
+### 2. *Counting Algorithm*:
+
+* A dictionary is used to keep track of word frequencies.
+* For each word read:
+
+  * If it exists in the dictionary, increment its count.
+  * Otherwise, add it with a count of 1.
+
+### 3. *Top 10 Tracking Without Sorting*:
+
+* A list of tuples ([('word', frequency)]) of size 10 is maintained dynamically.
+* After updating a word's count, the top 10 list is updated using a custom insertion algorithm:
+
+  * The list is searched up to 10 elements.
+  * If the word exists, it's repositioned based on new frequency.
+  * If not in the list but should be (higher frequency than current lowest), it is inserted accordingly.
+* In the event of a frequency tie, the most recent word occurrence is favored (pushed up).
+
+---
+
+## ⚠ Assumptions & Design Decisions:
+
+| Area                     | Decision/Assumption                                                               |
+| ------------------------ | --------------------------------------------------------------------------------- |
+| *Word Definition*      | Alphanumeric strings (letters and/or digits), hyphenated words count as one word. |
+| *Punctuation Handling* | Characters like .,:;!?'"\/ are removed before processing.                       |
+| *Case Sensitivity*     | All words are lowercased.                                                         |
+| *Performance*          | All data fits in memory.                                                          |
+| *Invalid Input Files*  | Handled with error messages (e.g., file not found or unreadable files).           |
+| *Sorting*              | Top 10 list is maintained manually without sorted().                            |
+
+---
+
+## 🧪 Test Suite Overview (tests.py):
+
+| Test Case                   | Description                                                 |
+| --------------------------- | ----------------------------------------------------------- |
+| test_count_words()        | Verifies total word count is accurate.                      |
+| test_top_10_words()       | Ensures correct top 10 words are returned in correct order. |
+| test_hyphenated_words()   | Confirms hyphenated words are treated as single units.      |
+| test_case_insensitivity() | Ensures word counting is case-insensitive.                  |
+| test_punctuation()        | Checks that punctuation is stripped correctly.              |
+| test_file_not_found()     | Tests error handling for missing files.                     |
+| test_empty_file()         | Handles empty file gracefully.                              |
+| test_numeric_words()      | Confirms that purely numeric strings are treated as words.  |
+
+---
+
+## 🧠 Performance Considerations:
+
+* *Time Complexity*:
+
+  * Word parsing and counting: *O(n)* (where n is the number of words).
+  * Top 10 list update: *O(10n)* worst case.
+  * Total runtime: *O(n)* due to constant factor overhead of the top 10 logic.
+
+* *Space Complexity*:
+
+  * Worst-case *O(n)* space if all words are unique.
+
+---
+
+## 🧩 Known Limitations:
+
+* Cannot handle multi-language files with different encodings unless converted to UTF-8.
+* Not suitable for streaming or out-of-core processing for extremely large files (e.g., >2GB).
+
+---
+
+## 🧰 Tools Used:
+
+* *Language*: Python 3.x
+* *Editor/IDE*: PyCharm (recommended)
+* *Standard Library Only*: No third-party packages used.
+
+---
+
+## ✅ Conclusion:
+
+This project successfully meets the requirements for a command-line word frequency counter that avoids built-in shortcuts like collections.Counter or sorted(). By implementing custom logic for both word counting and top 10 tracking, it demonstrates an understanding of fundamental algorithmic and data structure principles in Python.
+
+---
